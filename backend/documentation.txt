@@ -1,0 +1,166 @@
+---
+
+# Implemented Features
+
+## Database Layer
+
+Completed by Person 3.
+
+Implemented:
+
+* createBook()
+* getAllBooks()
+* getBookById()
+* updateBook()
+* deleteBook()
+* getBooksByCategory()
+* setResizedImageKey()
+
+Database successfully connected to AWS DynamoDB.
+
+Seed data inserted successfully.
+
+---
+
+## Backend API Layer
+
+Completed by Person 2.
+
+### Implemented Endpoints
+
+#### Get All Books
+
+GET /api/books
+
+Returns all books from DynamoDB.
+
+#### Get Single Book
+
+GET /api/books/:id
+
+Returns a single book by ID.
+
+#### Create Book
+
+POST /api/books
+
+Creates a new book record.
+
+#### Update Book
+
+PUT /api/books/:id
+
+Updates an existing book.
+
+#### Delete Book
+
+DELETE /api/books/:id
+
+Deletes a book record.
+
+---
+
+# Testing Status
+
+## Successfully Tested
+
+* DynamoDB Connection
+* GET /api/books
+* GET /api/books/:id
+* POST /api/books
+* PUT /api/books/:id
+* DELETE /api/books/:id
+
+All CRUD operations are functioning correctly against DynamoDB.
+
+---
+
+# Current Project Status
+
+## Completed
+
+### Person 2
+
+Backend CRUD API
+
+Status: Complete
+
+### Person 3
+
+DynamoDB Data Layer
+
+Status: Complete
+
+---
+
+# Waiting For Integration
+
+## Person 4
+
+S3 + Lambda Image Pipeline
+
+Required before implementing:
+
+* Image Upload
+* Image Update
+* Image Delete
+* CloudFront Image URLs
+
+Information needed:
+
+* S3 bucket name
+* AWS region confirmation
+* Bucket versioning status
+* Lambda resize function configuration
+
+---
+
+# Upcoming Backend Tasks
+
+After Person 4 completes the image pipeline:
+
+* Create s3Service.js
+* Integrate AWS S3 uploads
+* Store imageKey in DynamoDB
+* Handle image replacement
+* Handle image deletion
+* Generate CloudFront image URLs
+* Final integration testing
+
+---
+
+# API Endpoints
+
+| Method | Endpoint       | Description   |
+| ------ | -------------- | ------------- |
+| GET    | /api/books     | Get all books |
+| GET    | /api/books/:id | Get one book  |
+| POST   | /api/books     | Create a book |
+| PUT    | /api/books/:id | Update a book |
+| DELETE | /api/books/:id | Delete a book |
+
+---
+
+# Project Progress
+
+## Person 2 (Backend)
+
+Progress: ~70%
+
+Completed:
+
+* Express setup
+* Routing
+* Controllers
+* Error handling
+* DynamoDB integration
+* CRUD endpoints
+
+Pending:
+
+* S3 integration
+* CloudFront integration
+* Image handling workflow
+
+Currently:
+Waiting for Person 4 to complete S3 and Lambda configuration.
