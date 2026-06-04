@@ -13,9 +13,10 @@ function BookForm({
     initialData.author || ""
   );
 
-  const [category, setCategory] = useState(
-    initialData.category || ""
-  );
+  const [category, setCategory] =
+    useState(
+      initialData.category || ""
+    );
 
   const [description, setDescription] =
     useState(
@@ -35,13 +36,13 @@ function BookForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Title</label>
-
-        <br />
+      <div className="form-group">
+        <label className="form-label">
+          Title
+        </label>
 
         <input
-          type="text"
+          className="form-input"
           value={title}
           onChange={(e) =>
             setTitle(e.target.value)
@@ -50,15 +51,13 @@ function BookForm({
         />
       </div>
 
-      <br />
-
-      <div>
-        <label>Author</label>
-
-        <br />
+      <div className="form-group">
+        <label className="form-label">
+          Author
+        </label>
 
         <input
-          type="text"
+          className="form-input"
           value={author}
           onChange={(e) =>
             setAuthor(e.target.value)
@@ -67,41 +66,100 @@ function BookForm({
         />
       </div>
 
-      <br />
+      <div className="form-group">
+        <label className="form-label">
+          Genre
+        </label>
 
-      <div>
-        <label>Category</label>
-
-        <br />
-
-        <input
-          type="text"
+        <select
+          className="form-input"
           value={category}
           onChange={(e) =>
             setCategory(e.target.value)
           }
-        />
+        >
+          <option value="">
+            Select Genre
+          </option>
+
+          <option value="Fiction">
+            Fiction
+          </option>
+
+          <option value="Non-Fiction">
+            Non-Fiction
+          </option>
+
+          <option value="Fantasy">
+            Fantasy
+          </option>
+
+          <option value="Science Fiction">
+            Science Fiction
+          </option>
+
+          <option value="Mystery">
+            Mystery
+          </option>
+
+          <option value="Thriller">
+            Thriller
+          </option>
+
+          <option value="Romance">
+            Romance
+          </option>
+
+          <option value="Biography">
+            Biography
+          </option>
+
+          <option value="History">
+            History
+          </option>
+
+          <option value="Technology">
+            Technology
+          </option>
+
+          <option value="Psychology">
+            Psychology
+          </option>
+
+          <option value="Business">
+            Business
+          </option>
+
+          <option value="Self Development">
+            Self Development
+          </option>
+
+          <option value="Memoir">
+            Memoir
+          </option>
+        </select>
       </div>
 
-      <br />
-
-      <div>
-        <label>Description</label>
-
-        <br />
+      <div className="form-group">
+        <label className="form-label">
+          Description
+        </label>
 
         <textarea
-          rows="5"
+          className="form-textarea"
           value={description}
           onChange={(e) =>
-            setDescription(e.target.value)
+            setDescription(
+              e.target.value
+            )
           }
         />
       </div>
 
-      <br />
-
-      <button type="submit">
+      <button
+        type="submit"
+        className="submit-btn"
+      >
         {submitText}
       </button>
     </form>

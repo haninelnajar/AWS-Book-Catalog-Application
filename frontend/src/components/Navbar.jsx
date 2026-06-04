@@ -2,25 +2,31 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav
-      style={{
-        padding: "1rem",
-        borderBottom: "1px solid #ddd",
-        marginBottom: "2rem",
-      }}
-    >
-      <Link
-        to="/"
-        style={{
-          marginRight: "1rem",
-        }}
-      >
-        Home
-      </Link>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link
+          to="/"
+          className="navbar-logo"
+        >
+          📚 Book Catalog
+        </Link>
 
-      <Link to="/books/new">
-        Add Book
-      </Link>
+        <div className="nav-links">
+          <Link
+            to="/"
+            className="nav-link"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/books/new"
+            className="nav-link"
+          >
+            Add Book
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 }
