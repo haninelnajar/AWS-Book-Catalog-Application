@@ -25,15 +25,20 @@ function CreateBookPage() {
   }
 
   return (
-    <div>
-      <h1>Create Book</h1>
+  <div className="form-container">
+    <div className="form-card">
+      <h1 className="form-title">
+        Add New Book
+      </h1>
 
       <BookForm
         onSubmit={handleCreate}
         submitText="Create Book"
       />
     </div>
-  );
+  </div>
+);
+  
 }
 
 export default CreateBookPage;

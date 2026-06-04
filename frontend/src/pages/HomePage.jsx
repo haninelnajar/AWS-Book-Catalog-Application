@@ -22,9 +22,11 @@ function HomePage() {
           await getBooks();
 
         setBooks(response.data);
-      }catch {
-  setError("Failed to load books.");
-} finally {
+      } catch {
+        setError(
+          "Failed to load books."
+        );
+      } finally {
         setLoading(false);
       }
     }
@@ -43,8 +45,17 @@ function HomePage() {
     );
 
   return (
-    <div>
-      <h1>Book Catalog</h1>
+    <div className="container">
+      <div className="page-header">
+        <h1 className="page-title">
+          Book Catalog
+        </h1>
+
+        <p className="page-subtitle">
+          Browse and manage your book
+          collection.
+        </p>
+      </div>
 
       <BookList books={books} />
     </div>

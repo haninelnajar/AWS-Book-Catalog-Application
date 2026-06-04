@@ -10,10 +10,13 @@ import {
   deleteBook,
 } from "../api/bookApi";
 
+import {
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
+
 import LoadingSpinner from "../components/LoadingSpinner";
-
 import ErrorMessage from "../components/ErrorMessage";
-
 import DeleteModal from "../components/DeleteModal";
 
 function BookDetailsPage() {
@@ -83,46 +86,65 @@ function BookDetailsPage() {
     );
 
   return (
-    <div>
-      <h1>{book.title}</h1>
+    <div className="details-container">
+      <div className="details-card">
 
-      <p>
-        <strong>Author:</strong>{" "}
-        {book.author}
-      </p>
+        <div className="details-cover">
+          📖 Cover Coming Soon
+        </div>
 
-      <p>
-        <strong>Category:</strong>{" "}
-        {book.category}
-      </p>
+        <div className="details-content">
 
-      <p>
-        <strong>Description:</strong>{" "}
-        {book.description}
-      </p>
+          <h1 className="details-title">
+            {book.title}
+          </h1>
 
-      <br />
+          <p className="details-info">
+            <strong>Author:</strong>{" "}
+            {book.author}
+          </p>
 
-      <button
-        onClick={() =>
-          navigate(
-            `/books/edit/${book.bookId}`
-          )
-        }
-        style={{
-          marginRight: "1rem",
-        }}
-      >
-        Edit Book
-      </button>
+          <p className="details-info">
+            <strong>Genre:</strong>{" "}
+            {book.category}
+          </p>
 
-      <button
-        onClick={() =>
-          setShowDeleteModal(true)
-        }
-      >
-        Delete Book
-      </button>
+          <div className="details-description">
+            <strong>Description</strong>
+
+            <p>
+              {book.description}
+            </p>
+          </div>
+
+          <div className="actions">
+
+            <button
+              className="edit-btn"
+              title="Edit Book"
+              onClick={() =>
+                navigate(
+                  `/books/edit/${book.bookId}`
+                )
+              }
+            >
+              <FaEdit />
+            </button>
+            <button
+              className="delete-btn"
+              title="Delete Book"
+              onClick={() =>
+                setShowDeleteModal(true)
+              }
+            >
+              <FaTrash />
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
 
       {showDeleteModal && (
         <DeleteModal
