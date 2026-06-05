@@ -1,7 +1,7 @@
 const { test } = require("node:test");
 const assert = require("node:assert");
 
-const { decideAction } = require("./resizeImage");
+const { decideAction } = require("./decideAction");
 
 test("skips objects already tagged resized=true", () => {
   const action = decideAction({ resizedFlag: "true", width: 4000, height: 4000, max: 300 });
