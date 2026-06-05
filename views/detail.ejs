@@ -1,0 +1,28 @@
+<%- include("partials/header", { title: book.title }) %>
+
+<a class="back" href="/">← Back to all books</a>
+
+<article class="detail">
+  <% if (book.imageUrl) { %>
+    <img class="cover-large" src="<%= book.imageUrl %>" alt="<%= book.title %> cover" />
+  <% } else { %>
+    <div class="cover-large placeholder">No cover</div>
+  <% } %>
+
+  <div class="detail-body">
+    <h1><%= book.title %></h1>
+    <p class="author">by <%= book.author %></p>
+    <p class="category">Category: <%= book.category %></p>
+    <p class="description"><%= book.description %></p>
+
+    <div class="actions">
+      <a class="btn" href="/books/<%= book.bookId %>/edit">Edit</a>
+      <form method="POST" action="/books/<%= book.bookId %>/delete"
+            onsubmit="return confirm('Delete this book?');">
+        <button class="btn danger" type="submit">Delete</button>
+      </form>
+    </div>
+  </div>
+</article>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,42 @@
+<%- include("partials/header", { title: book ? "Edit Book" : "Add Book" }) %>
+
+<h1><%= book ? "Edit Book" : "Add Book" %></h1>
+
+<form class="book-form" method="POST"
+      action="<%= book ? '/books/' + book.bookId : '/books' %>"
+      enctype="multipart/form-data">
+
+  <label>Title
+    <input type="text" name="title" required value="<%= book ? book.title : '' %>" />
+  </label>
+
+  <label>Author
+    <input type="text" name="author" required value="<%= book ? book.author : '' %>" />
+  </label>
+
+  <label>Category
+    <input type="text" name="category" value="<%= book ? book.category : '' %>" />
+  </label>
+
+  <label>Description
+    <textarea name="description" rows="4"><%= book ? book.description : '' %></textarea>
+  </label>
+
+  <% if (book && book.imageUrl) { %>
+    <div class="current-cover">
+      <span>Current cover:</span>
+      <img class="cover" src="<%= book.imageUrl %>" alt="current cover" />
+    </div>
+  <% } %>
+
+  <label>Cover image <%= book ? "(upload to replace; old version is kept)" : "" %>
+    <input type="file" name="image" accept="image/*" />
+  </label>
+
+  <div class="actions">
+    <button class="btn" type="submit"><%= book ? "Save Changes" : "Create Book" %></button>
+    <a class="btn secondary" href="<%= book ? '/books/' + book.bookId : '/' %>">Cancel</a>
+  </div>
+</form>
+
+<%- include("partials/footer") %>
