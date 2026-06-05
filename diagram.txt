@@ -1,0 +1,47 @@
+title AWS Book Catalog — High-Availability Architecture
+
+// ─────────── External / Edge ───────────
+User [icon: user, label: "User / Browser"]
+CloudFront [icon: aws-cloudfront, label: "CloudFront (planned)"]
+ALB [icon: aws-elastic-load-balancing, label: "Application Load Balancer (HTTP :80)"]
+
+// ─────────── IAM ───────────
+Role [icon: aws-iam, label: "EC2 Instance Role"]
+
+// ─────────── VPC + Compute ───────────
+VPC [icon: aws-vpc, label: "Default VPC (us-east-1)"] {
+  AZ_A [label: "AZ us-east-1a"] {
+    EC2_1 [icon: aws-ec2, label: "EC2 #1 — Node app :5000"]
+  }
+  AZ_B [label: "AZ us-east-1b"] {
+    EC2_2 [icon: aws-ec2, label: "EC2 #2 — Node app :5000"]
+  }
+}
+
+// ─────────── Data services ───────────
+DynamoDB [icon: aws-dynamodb, label: "DynamoDB — Books"]
+SourceBucket [icon: aws-simple-storage-service, label: "S3 source (originals, covers/)"]
+ResizedBucket [icon: aws-simple-storage-service, label: "S3 resized (displayed)"]
+Lambda [icon: aws-lambda, label: "Lambda resizeImage (sharp)"]
+
+// ─────────── Request path ───────────
+User > CloudFront
+CloudFront > ALB
+ALB > EC2_1
+ALB > EC2_2
+
+// ─────────── IAM attachment ───────────
+Role -- EC2_1
+Role -- EC2_2
+
+// ─────────── App ↔ data ───────────
+EC2_1 > DynamoDB
+EC2_2 > DynamoDB
+EC2_1 > SourceBucket
+EC2_2 > SourceBucket
+ResizedBucket > EC2_1: "presigned URL"
+ResizedBucket > EC2_2: "presigned URL"
+
+// ─────────── Image resize pipeline ───────────
+SourceBucket > Lambda: "ObjectCreated (covers/)"
+Lambda > ResizedBucket: "writes resized (same key)"
