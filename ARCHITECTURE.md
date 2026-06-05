@@ -211,7 +211,7 @@ the systemd unit via `EnvironmentFile`:
 10. **Configured security groups** — ALB open on 80 to the internet; instances
     open on 5000 only to the ALB's SG.
 11. **Verified** both targets `healthy` and the app reachable via the ALB DNS:
-    `http://book-catalog-1962840844.us-east-1.elb.amazonaws.com/`.
+    `http://book-catalog-830393090.us-east-1.elb.amazonaws.com/`.
 
 ---
 
