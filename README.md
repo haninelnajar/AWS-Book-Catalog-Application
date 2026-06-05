@@ -1,8 +1,9 @@
 # AWS Book Catalog — Single-Server Edition
 
 A single Node.js/Express app (server-rendered EJS) doing CRUD on **DynamoDB**
-with cover-image upload to **S3**, plus a separate **Lambda** that resizes
-images. Built for the Cloud Computing 2026 "Web Application Hosting on AWS"
+with cover-image upload to **S3**, plus a separate **Lambda** that resizes each
+uploaded image into a second bucket (the app links and displays the resized
+copy). Built for the Cloud Computing 2026 "Web Application Hosting on AWS"
 milestone. Runs as one process on one EC2 instance (replicated across AZs behind
 an ALB + CloudFront for high availability).
 
@@ -14,9 +15,12 @@ an ALB + CloudFront for high availability).
 
 ## Prerequisites (AWS)
 - DynamoDB table `Books`, partition key `bookId` (string)
-- A private S3 bucket for covers
+- Two private S3 buckets:
+  - **source** (`S3_BUCKET`) — originals are uploaded here
+  - **resized** (`RESIZED_BUCKET`) — the Lambda writes resized copies here; the
+    app displays these
 - Credentials: an EC2 IAM role in production, or a local AWS CLI profile for dev,
-  with DynamoDB CRUD + `s3:PutObject/GetObject/DeleteObject` on the bucket
+  with DynamoDB CRUD + `s3:PutObject/GetObject/DeleteObject` on **both** buckets
 
 ## Run locally
 ```bash
@@ -31,8 +35,9 @@ npm start              # http://localhost:5000
 | `PORT` | HTTP port (default 5000) |
 | `AWS_REGION` | e.g. `us-east-1` |
 | `BOOKS_TABLE` | DynamoDB table name (default `Books`) |
-| `S3_BUCKET` | cover-image bucket |
-| `CLOUDFRONT_URL` | optional; if set, images served via this domain instead of presigned URLs |
+| `S3_BUCKET` | source bucket — uploaded originals |
+| `RESIZED_BUCKET` | resized bucket — copies the app displays (Lambda writes here) |
+| `CLOUDFRONT_URL` | optional; if set, images served via this domain (front it on the resized bucket) instead of presigned URLs |
 
 ## Deploy on EC2 (one server)
 1. Install Node.js 20.
