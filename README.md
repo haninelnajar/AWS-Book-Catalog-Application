@@ -1,131 +1,48 @@
-# AWS Book Catalog Application
+# AWS Book Catalog — Single-Server Edition
 
-## Project Overview
+A single Node.js/Express app (server-rendered EJS) doing CRUD on **DynamoDB**
+with cover-image upload to **S3**, plus a separate **Lambda** that resizes
+images. Built for the Cloud Computing 2026 "Web Application Hosting on AWS"
+milestone. Runs as one process on one EC2 instance (replicated across AZs behind
+an ALB + CloudFront for high availability).
 
-This project is a cloud-hosted Book Catalog web application developed as part of the Cloud Computing course project.
+## Stack
+- Node.js + Express + EJS (one process, one port)
+- AWS SDK for JavaScript v3 — DynamoDB + S3
+- multer (in-memory upload)
+- Lambda (`lambda/`) — image resize (deployed separately)
 
-The application allows users to:
+## Prerequisites (AWS)
+- DynamoDB table `Books`, partition key `bookId` (string)
+- A private S3 bucket for covers
+- Credentials: an EC2 IAM role in production, or a local AWS CLI profile for dev,
+  with DynamoDB CRUD + `s3:PutObject/GetObject/DeleteObject` on the bucket
 
-* Create books
-* View all books
-* View a single book
-* Update book information
-* Delete books
-* Upload and manage book cover images (to be implemented)
-* Store book data in AWS DynamoDB
-* Store book images in AWS S3
-* Resize uploaded images using AWS Lambda
-* Deploy the application on AWS EC2 with High Availability architecture
-
----
-
-# Technology Stack
-
-## Frontend
-
-* React.js
-* React Router
-
-## Backend
-
-* Node.js
-* Express.js
-
-## Database
-
-* AWS DynamoDB
-
-## Storage
-
-* AWS S3
-
-## Serverless Processing
-
-* AWS Lambda
-
-## Infrastructure
-
-* AWS EC2
-* Application Load Balancer (ALB)
-* CloudFront
-
----
-
-# Application Domain
-
-## Book Catalog
-
-Each book contains:
-
-```json
-{
-  "bookId": "uuid",
-  "title": "Atomic Habits",
-  "author": "James Clear",
-  "category": "Self Development",
-  "description": "Book description",
-  "imageKey": null,
-  "resizedImageKey": null,
-  "createdAt": "timestamp",
-  "updatedAt": "timestamp"
-}
+## Run locally
+```bash
+npm install
+cp .env.example .env   # set S3_BUCKET, AWS_REGION, BOOKS_TABLE
+npm start              # http://localhost:5000
 ```
 
----
+## Environment
+| Var | Meaning |
+|-----|---------|
+| `PORT` | HTTP port (default 5000) |
+| `AWS_REGION` | e.g. `us-east-1` |
+| `BOOKS_TABLE` | DynamoDB table name (default `Books`) |
+| `S3_BUCKET` | cover-image bucket |
+| `CLOUDFRONT_URL` | optional; if set, images served via this domain instead of presigned URLs |
 
-# Backend Folder Structure
+## Deploy on EC2 (one server)
+1. Install Node.js 20.
+2. `git clone` this repo, `npm install --omit=dev`.
+3. Attach an IAM role with DynamoDB + S3 permissions (no keys in code).
+4. Set env vars (e.g. in a systemd unit or `.env`).
+5. Run with a process manager: `node server.js` under `systemd`/`pm2`.
+6. For HA: run the same on multiple instances across AZs, front with an ALB
+   (health check `/health`), and put CloudFront in front of the ALB.
 
-```text
-backend/
-│
-├── src/
-│   │
-│   ├── config/
-│   │   └── dynamoClient.js
-│   │
-│   ├── controllers/
-│   │   └── bookController.js
-│   │
-│   ├── middleware/
-│   │   └── errorHandler.js
-│   │
-│   ├── routes/
-│   │   └── bookRoutes.js
-│   │
-│   ├── services/
-│   │   └── bookRepository.js
-│   │
-│   └── app.js
-│
-├── server.js
-├── .env
-├── package.json
-└── README.md
-```
-
----
-
-# DynamoDB Table Design
-
-## Table Name
-
-Books
-
-## Partition Key
-
-bookId (String)
-
-## Attributes
-
-| Attribute       | Type   |
-| --------------- | ------ |
-| bookId          | String |
-| title           | String |
-| author          | String |
-| category        | String |
-| description     | String |
-| imageKey        | String |
-| resizedImageKey | String |
-| createdAt       | String |
-| updatedAt       | String |
-
+## Lambda
+See [`lambda/README.md`](lambda/README.md) for building, deploying, and wiring
+the S3 trigger.
